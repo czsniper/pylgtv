@@ -77,15 +77,15 @@ class WebOsClient(object):
 
         logger.debug('save keyfile to %s', key_file_path);
 
-        with open(key_file_path, 'w+') as f:
+        with open(key_file_path, 'r+') as f:
             raw_data = f.read()
             key_dict = {}
-
             if raw_data:
                 key_dict = json.loads(raw_data)
 
             key_dict[self.ip] = self.client_key
-
+            f.seek(0)
+            f.truncate()
             f.write(json.dumps(key_dict))
 
     @asyncio.coroutine
